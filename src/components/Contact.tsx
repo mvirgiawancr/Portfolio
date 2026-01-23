@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const socialLinks = [
   { href: "https://github.com/mvirgiawancr", label: "GitHub", icon: "🐙" },
-  { href: "https://t.me/virgiizz", label: "Telegram", icon: "✈️" },
+  { href: "https://t.me/virgiizzz", label: "Telegram", icon: "✈️" },
 ];
 
 export function Contact() {

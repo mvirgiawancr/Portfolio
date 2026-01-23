@@ -11,6 +11,13 @@ const skills = [
   "Node.js",
   "PostgreSQL",
   "Tailwind CSS",
+  "Solidity",
+  "Foundry",
+  "Express.js",
+  "Git",
+  "Hyperledger Fabric",
+  "Laravel",
+  
 ];
 
 export function About() {
