@@ -17,12 +17,15 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Moch Virgiawan C | Portfolio",
+  title: "Moch Virgiawan Caesar Ridollohi | Portfolio",
   description: "Personal portfolio of Moch Virgiawan Caesar Ridollohi - Full Stack Developer",
   keywords: ["developer", "portfolio", "web development", "next.js", "full stack"],
   authors: [{ name: "Moch Virgiawan Caesar Ridollohi" }],
+  icons: {
+    icon: "/icon.svg",
+  },
   openGraph: {
-    title: "Moch Virgiawan C | Portfolio",
+    title: "Moch Virgiawan Caesar Ridollohi | Portfolio",
     description: "Personal portfolio of Moch Virgiawan Caesar Ridollohi - Full Stack Developer",
     type: "website",
   },
