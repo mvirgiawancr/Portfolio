@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const socialLinks = [
   { href: "https://github.com/mvirgiawancr", label: "GitHub", icon: "🐙" },
-  { href: "https://t.me/mvirgiawancr", label: "Telegram", icon: "✈️" },
+  { href: "https://t.me/virgiizz", label: "Telegram", icon: "✈️" },
 ];
 
 export function Contact() {
@@ -71,7 +71,7 @@ export function Contact() {
                 </div>
                 <div>
                   <p className="font-semibold">Email</p>
-                  <p className="text-muted-foreground">mvirgiawancr@gmail.com</p>
+                  <p className="text-muted-foreground">mochvirgiawancr@gmail.com</p>
                 </div>
               </div>
               <div className="flex items-center gap-4">
@@ -80,7 +80,7 @@ export function Contact() {
                 </div>
                 <div>
                   <p className="font-semibold">Location</p>
-                  <p className="text-muted-foreground">Indonesia</p>
+                  <p className="text-muted-foreground">Bandung</p>
                 </div>
               </div>
             </div>
