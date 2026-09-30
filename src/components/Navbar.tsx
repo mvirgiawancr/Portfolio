@@ -1,156 +1,98 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { site } from "@/data/site";
+import { Logo } from "@/components/Logo";
 
-const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "#about", label: "About" },
-  { href: "#projects", label: "Projects" },
-  { href: "#contact", label: "Contact" },
+const links = [
+  { href: "/projects", label: "Work" },
+  { href: "/#about", label: "About" },
+  { href: "/#contact", label: "Contact" },
 ];
 
 export function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isDark, setIsDark] = useState(true);
+  const pathname = usePathname();
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    // Check initial theme
-    const isDarkMode = document.documentElement.classList.contains("dark") ||
-      (!document.documentElement.classList.contains("light") &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches);
-    setIsDark(isDarkMode);
-    if (isDarkMode) {
-      document.documentElement.classList.add("dark");
-    }
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const toggleTheme = () => {
-    const newIsDark = !isDark;
-    setIsDark(newIsDark);
-    if (newIsDark) {
-      document.documentElement.classList.add("dark");
-      document.documentElement.classList.remove("light");
-    } else {
-      document.documentElement.classList.remove("dark");
-      document.documentElement.classList.add("light");
-    }
-  };
-
   return (
-    <motion.header
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm"
+    <header
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+        scrolled || open ? "bg-paper/90 backdrop-blur-md border-b border-rule" : "border-b border-transparent"
+      }`}
     >
-      <nav className="max-w-7xl mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link
-            href="/"
-            className="text-xl font-bold neo-border-thin px-4 py-2 bg-accent text-background neo-shadow neo-hover"
-          >
-            mvirgiawancr
-          </Link>
+      <nav className="mx-auto flex h-16 max-w-[88rem] items-center justify-between px-4 sm:px-8">
+        <Link href="/" aria-label="Virgiawan, home" className="group flex items-center gap-3 whitespace-nowrap">
+          <Logo className="size-8 transition-transform duration-300 group-hover:-rotate-6" />
+          <span className="font-display text-lg font-bold tracking-tight">Virgiawan</span>
+        </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-2">
-            {navLinks.map((link) => (
+        <div className="hidden items-center gap-8 md:flex">
+          {links.map((l) => {
+            const active = l.href === "/projects" && pathname.startsWith("/projects");
+            return (
               <Link
-                key={link.href}
-                href={link.href}
-                className="px-4 py-2 font-semibold text-lg transition-colors hover:bg-muted neo-border-thin neo-hover"
+                key={l.href}
+                href={l.href}
+                className={`text-[15px] whitespace-nowrap transition-colors hover:text-ink ${active ? "text-ink" : "text-ink-2"}`}
               >
-                {link.label}
+                {l.label}
               </Link>
-            ))}
-            
-            {/* Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              className="ml-2 p-3 neo-border-thin neo-shadow neo-hover bg-muted"
-              aria-label="Toggle theme"
-            >
-              <motion.span
-                key={isDark ? "dark" : "light"}
-                initial={{ rotate: -90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: 90, opacity: 0 }}
-                className="block text-xl"
-              >
-                {isDark ? "☀️" : "🌙"}
-              </motion.span>
-            </button>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="flex md:hidden items-center gap-2">
-            {/* Theme Toggle Mobile */}
-            <button
-              onClick={toggleTheme}
-              className="p-3 neo-border-thin neo-shadow bg-muted"
-              aria-label="Toggle theme"
-            >
-              <span className="text-lg">{isDark ? "☀️" : "🌙"}</span>
-            </button>
-            
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="neo-border-thin p-3 neo-shadow neo-hover bg-background"
-              aria-label="Toggle menu"
-            >
-              <div className="w-6 h-5 flex flex-col justify-between">
-                <motion.span
-                  animate={isOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
-                  className="w-full h-0.5 bg-foreground block"
-                />
-                <motion.span
-                  animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
-                  className="w-full h-0.5 bg-foreground block"
-                />
-                <motion.span
-                  animate={isOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
-                  className="w-full h-0.5 bg-foreground block"
-                />
-              </div>
-            </button>
-          </div>
+            );
+          })}
+          <a
+            href={site.calendly}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-ink px-4 py-2 text-[14px] font-medium text-paper transition-transform duration-200 hover:-translate-y-px active:translate-y-0"
+          >
+            <span className="size-1.5 rounded-full bg-hi" aria-hidden />
+            Book a call
+          </a>
         </div>
 
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-              className="md:hidden mt-4 overflow-hidden"
-            >
-              <div className="flex flex-col gap-2 neo-border p-4 bg-muted neo-shadow-lg">
-                {navLinks.map((link, index) => (
-                  <motion.div
-                    key={link.href}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    <Link
-                      href={link.href}
-                      onClick={() => setIsOpen(false)}
-                      className="block px-4 py-3 font-semibold text-lg neo-border-thin bg-background neo-hover"
-                    >
-                      {link.label}
-                    </Link>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-expanded={open}
+          aria-controls="mobile-nav"
+          className="-mr-2 p-2 font-mono text-xs uppercase tracking-widest md:hidden"
+        >
+          {open ? "Close" : "Menu"}
+        </button>
       </nav>
-    </motion.header>
+
+      {open && (
+        <div id="mobile-nav" className="border-t border-rule px-4 pb-6 pt-2 md:hidden">
+          {links.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              onClick={() => setOpen(false)}
+              className="block border-b border-rule py-4 font-display text-3xl font-semibold"
+            >
+              {l.label}
+            </Link>
+          ))}
+          <a
+            href={site.calendly}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-6 inline-flex rounded-full bg-ink px-5 py-3 font-medium text-paper"
+          >
+            Book a 30-min call
+          </a>
+        </div>
+      )}
+    </header>
   );
 }

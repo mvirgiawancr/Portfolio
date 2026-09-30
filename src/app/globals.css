@@ -1,141 +1,147 @@
+/* Hallmark · macrostructure: Marquee Hero + Index · tone: editorial, utilitarian · anchor hue: highlighter lime (~118°)
+ * theme: custom · paper oklch(96.5% 0.012 95) · accent oklch(90% 0.19 118) · Bricolage Grotesque + Hanken Grotesk + JetBrains Mono
+ * axes: light / grotesk-sans / chromatic-other
+ */
 @import "tailwindcss";
 
-/* Neo-Brutalism Theme Variables */
 :root {
-  --background: #fefefe;
-  --foreground: #0a0a0a;
-  --accent: #ff6b35;
-  --accent-secondary: #4ecdc4;
-  --accent-tertiary: #ffe66d;
-  --border: #0a0a0a;
-  --muted: #f5f5f5;
-  --muted-foreground: #6b6b6b;
-}
+  --color-paper: oklch(96.5% 0.012 95);
+  --color-paper-2: oklch(92.5% 0.016 95);
+  --color-ink: oklch(21% 0.02 150);
+  --color-ink-2: oklch(42% 0.02 150);
+  --color-rule: oklch(21% 0.02 150 / 0.2);
+  --color-hi: oklch(90% 0.19 118);
+  --color-focus: oklch(45% 0.18 250);
 
-.dark {
-  --background: #0a0a0a;
-  --foreground: #fefefe;
-  --accent: #ff6b35;
-  --accent-secondary: #4ecdc4;
-  --accent-tertiary: #ffe66d;
-  --border: #fefefe;
-  --muted: #1a1a1a;
-  --muted-foreground: #a1a1a1;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not(.light) {
-    --background: #0a0a0a;
-    --foreground: #fefefe;
-    --accent: #ff6b35;
-    --accent-secondary: #4ecdc4;
-    --accent-tertiary: #ffe66d;
-    --border: #fefefe;
-    --muted: #1a1a1a;
-    --muted-foreground: #a1a1a1;
-  }
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 160ms;
+  --dur-base: 400ms;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-accent: var(--accent);
-  --color-accent-secondary: var(--accent-secondary);
-  --color-accent-tertiary: var(--accent-tertiary);
-  --color-border: var(--border);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --font-sans: var(--font-outfit);
-  --font-mono: var(--font-geist-mono);
+  --color-paper: var(--color-paper);
+  --color-paper-2: var(--color-paper-2);
+  --color-ink: var(--color-ink);
+  --color-ink-2: var(--color-ink-2);
+  --color-rule: var(--color-rule);
+  --color-hi: var(--color-hi);
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 }
 
-/* Base Styles */
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
+  overflow-x: clip;
 }
 
-/* Hide default cursor on desktop */
-@media (pointer: fine) {
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
 
-  html,
-  body,
-  *,
-  *::before,
-  *::after {
-    cursor: none !important;
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  font-variant-emoji: text;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-style: normal;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+::selection {
+  background: var(--color-hi);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+/* Highlighter band under a word */
+.mark {
+  background-image: linear-gradient(var(--color-hi), var(--color-hi));
+  background-repeat: no-repeat;
+  background-position: 0 88%;
+  background-size: 100% 0.42em;
+}
+
+/* Underline that draws in on hover */
+.link-line {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 100% 1px;
+  transition: background-size var(--dur-base) var(--ease-out);
+}
+.link-line:hover {
+  background-size: 100% 0.2em;
+}
+
+/* Entrance */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.rise {
+  opacity: 0;
+  animation: rise 800ms var(--ease-out) forwards;
+  animation-delay: calc(var(--i, 0) * 90ms);
+}
+
+/* Hero project strip */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee {
+  overflow: hidden;
+  padding-left: 1rem;
+}
+.marquee-track {
+  animation: marquee 70s linear infinite;
+}
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+@media (min-width: 640px) {
+  .marquee {
+    padding-left: 2rem;
   }
 }
 
-/* Neo-Brutalism Utilities */
-.neo-shadow {
-  box-shadow: 4px 4px 0 0 var(--border);
-}
-
-.neo-shadow-lg {
-  box-shadow: 8px 8px 0 0 var(--border);
-}
-
-.neo-border {
-  border: 3px solid var(--border);
-}
-
-.neo-border-thin {
-  border: 2px solid var(--border);
-}
-
-/* Hover lift effect */
-.neo-hover {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.neo-hover:hover {
-  transform: translate(-4px, -4px);
-  box-shadow: 8px 8px 0 0 var(--border);
-}
-
-/* Selection */
-::selection {
-  background: var(--accent);
-  color: var(--background);
-}
-
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 12px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--muted);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--foreground);
-  border: 2px solid var(--muted);
-}
-
-/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-
+  .marquee {
+    overflow-x: auto;
+  }
+  .marquee-track {
+    animation: none !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
     transition-duration: 0.01ms !important;
   }
-}
-
-/* Background Noise Texture */
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: -1;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
 }

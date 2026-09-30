@@ -1,114 +1,45 @@
-"use client";
-
-import { useState } from "react";
-import { motion } from "motion/react";
-import Image from "next/image";
 import Link from "next/link";
-import { Project } from "@/data/projects";
+import type { Project } from "@/data/projects";
 
-interface ProjectCardProps {
+interface Props {
   project: Project;
-  index: number;
+  onHover?: (project: Project | null) => void;
 }
 
-export function ProjectCard({ project, index }: ProjectCardProps) {
-  const [imageError, setImageError] = useState(false);
-  const colors = [
-    "bg-accent",
-    "bg-accent-secondary",
-    "bg-accent-tertiary",
-  ];
-  const colorClass = colors[index % colors.length];
-
+/** One row of the work index. Hover preview is handled by the parent list. */
+export function ProjectCard({ project, onHover }: Props) {
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group h-full"
-    >
-      <div className="neo-border bg-background neo-shadow-lg neo-hover overflow-hidden h-full flex flex-col">
-        {/* Project Image - Clickable to detail page */}
-        <Link href={`/projects/${project.slug}`} className="block">
-          <div className={`h-48 ${colorClass} relative flex items-center justify-center overflow-hidden border-b-4 border-accent`}>
-            {project.image && !imageError ? (
-              <Image
-                src={project.image}
-                alt={project.title}
-                fill
-                className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
-                onError={() => setImageError(true)}
-              />
-            ) : (
-              <span className="text-6xl font-black text-background/20">
-                {project.title.charAt(0)}
-              </span>
-            )}
-          </div>
-        </Link>
+    <li className="border-b border-rule first:border-t">
+      <Link
+        href={`/projects/${project.slug}`}
+        onMouseEnter={() => onHover?.(project)}
+        onMouseLeave={() => onHover?.(null)}
+        onFocus={() => onHover?.(project)}
+        onBlur={() => onHover?.(null)}
+        className="group relative grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-6 gap-y-4 py-6 transition-[padding,background-color] duration-300 sm:py-9 md:hover:bg-hi md:hover:px-6"
+      >
+        <h3 className="text-[clamp(2.25rem,7vw,6rem)] leading-none font-bold tracking-[-0.04em]">
+          {project.title}
+        </h3>
+        <span className="hidden text-2xl transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 sm:block" aria-hidden>
+          ↗
+        </span>
 
-        {/* Content */}
-        <div className="p-6 flex flex-col flex-grow">
-          <Link href={`/projects/${project.slug}`} className="block">
-            <h3 className="text-2xl font-bold mb-3 hover:text-accent transition-colors">{project.title}</h3>
-          </Link>
-          <p className="text-muted-foreground mb-4 line-clamp-2">
-            {project.description}
-          </p>
+        <p className="col-span-2 flex flex-wrap gap-x-6 gap-y-1 text-ink-2 sm:col-span-1 sm:text-lg">
+          <span>{project.kind}</span>
+          <span>{project.year}</span>
+          <span className="hidden lg:inline">{project.stack.slice(0, 3).join(" · ")}</span>
+        </p>
 
-          {/* Tags */}
-          <div className="flex flex-wrap gap-2 mb-6">
-            {project.tags.slice(0, 3).map((tag) => (
-              <span
-                key={tag}
-                className="px-3 py-1 text-sm font-medium bg-muted neo-border-thin"
-              >
-                {tag}
-              </span>
-            ))}
-            {project.tags.length > 3 && (
-              <span className="px-3 py-1 text-sm font-medium text-muted-foreground">
-                +{project.tags.length - 3}
-              </span>
-            )}
-          </div>
-
-          {/* Links */}
-          <div className="flex flex-col gap-3 mt-auto">
-            {/* View Details Button */}
-            <Link
-              href={`/projects/${project.slug}`}
-              className="w-full text-center py-3 bg-accent text-foreground font-semibold neo-border-thin transition-transform hover:translate-x-[-2px] hover:translate-y-[-2px]"
-            >
-              View Details →
-            </Link>
-            
-            <div className="flex gap-3">
-              {project.liveUrl && (
-                <Link
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 text-center py-3 bg-foreground text-background font-semibold neo-border-thin transition-transform hover:translate-x-[-2px] hover:translate-y-[-2px]"
-                >
-                  Live Demo
-                </Link>
-              )}
-              {project.codeUrl && (
-                <Link
-                  href={project.codeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 text-center py-3 bg-background text-foreground font-semibold neo-border-thin transition-transform hover:translate-x-[-2px] hover:translate-y-[-2px]"
-                >
-                  View Code
-                </Link>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </motion.article>
+        {/* Inline thumbnail on touch / small screens */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={project.cover}
+          alt=""
+          loading="lazy"
+          className="col-span-2 aspect-[16/10] w-full border border-rule object-cover object-top md:hidden"
+        />
+      </Link>
+    </li>
   );
 }

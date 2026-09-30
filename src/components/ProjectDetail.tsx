@@ -1,273 +1,130 @@
-"use client";
-
-import { motion } from "motion/react";
-import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { Project } from "@/data/projects";
+import type { Project } from "@/data/projects";
 
-interface ProjectDetailProps {
-    project: Project;
+function Meta({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="border-t border-ink pt-3">
+      <dt className="font-mono text-xs uppercase tracking-widest text-ink-2">{label}</dt>
+      <dd className="mt-2 text-lg">{children}</dd>
+    </div>
+  );
 }
 
-export function ProjectDetail({ project }: ProjectDetailProps) {
-    const [imageError, setImageError] = useState(false);
+export function ProjectDetail({ project, next }: { project: Project; next: Project }) {
+  return (
+    <article className="pt-28 sm:pt-36">
+      <div className="mx-auto max-w-[88rem] px-4 sm:px-8">
+        <Link href="/projects" className="link-line text-ink-2">
+          ← All work
+        </Link>
 
-    return (
-        <article className="min-h-screen pt-32 pb-20 px-6">
-            <div className="max-w-5xl mx-auto">
-                {/* Back Button */}
-                <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="mb-8"
-                >
-                    <Link
-                        href="/projects"
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-muted font-semibold neo-border-thin neo-shadow neo-hover"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="3"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        >
-                            <path d="M19 12H5" />
-                            <path d="m12 19-7-7 7-7" />
-                        </svg>
-                        Back to Projects
-                    </Link>
-                </motion.div>
+        <h1 className="mt-8 text-[clamp(3.25rem,12vw,11rem)] leading-[0.9] font-extrabold tracking-[-0.05em]">
+          {project.title}
+        </h1>
+        <p className="mt-6 max-w-[28ch] text-[clamp(1.5rem,3vw,2.5rem)] leading-tight font-medium tracking-tight">
+          <span className="mark">{project.tagline}</span>
+        </p>
 
-                {/* Hero Section */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="mb-12"
-                >
-                    {/* Project Image */}
-                    <div className="neo-border neo-shadow-lg overflow-hidden mb-8">
-                        <div className="relative aspect-video bg-accent">
-                            {project.image && !imageError ? (
-                                <Image
-                                    src={project.image}
-                                    alt={project.title}
-                                    fill
-                                    className="object-cover object-top"
-                                    onError={() => setImageError(true)}
-                                    priority
-                                />
-                            ) : (
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                    <span className="text-9xl font-black text-background/20">
-                                        {project.title.charAt(0)}
-                                    </span>
-                                </div>
-                            )}
-                        </div>
-                    </div>
+        <dl className="mt-14 grid gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
+          <Meta label="Type">{project.kind}</Meta>
+          <Meta label="Year">{project.year}</Meta>
+          <Meta label="Role">{project.role}</Meta>
+          <Meta label="Stack">{project.stack.join(", ")}</Meta>
+        </dl>
 
-                    {/* Title & Meta */}
-                    <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
-                        <div>
-                            <h1 className="text-4xl md:text-5xl font-black mb-3">
-                                {project.title}
-                            </h1>
-                            {project.year && (
-                                <span className="inline-block px-3 py-1 bg-accent-tertiary text-foreground font-semibold neo-border-thin">
-                                    {project.year}
-                                </span>
-                            )}
-                        </div>
+        <ul className="mt-10 flex flex-wrap gap-x-8 gap-y-3">
+          {project.links.map((l, i) => (
+            <li key={l.href}>
+              <a
+                href={l.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={
+                  i === 0
+                    ? "inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-ink px-6 py-3 font-medium text-paper transition-transform duration-200 hover:-translate-y-0.5"
+                    : "link-line inline-block whitespace-nowrap py-3 font-medium"
+                }
+              >
+                {l.label} ↗
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
 
-                        {/* Action Buttons */}
-                        <div className="flex gap-3">
-                            {project.liveUrl && (
-                                <Link
-                                    href={project.liveUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="px-6 py-3 bg-foreground text-background font-bold neo-border-thin neo-hover flex items-center gap-2"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="18"
-                                        height="18"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    >
-                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                                        <polyline points="15 3 21 3 21 9" />
-                                        <line x1="10" x2="21" y1="14" y2="3" />
-                                    </svg>
-                                    Live Demo
-                                </Link>
-                            )}
-                            {project.codeUrl && (
-                                <Link
-                                    href={project.codeUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="px-6 py-3 bg-background text-foreground font-bold neo-border-thin neo-hover flex items-center gap-2"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="18"
-                                        height="18"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    >
-                                        <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
-                                        <path d="M9 18c-4.51 2-5-2-7-2" />
-                                    </svg>
-                                    View Code
-                                </Link>
-                            )}
-                        </div>
-                    </div>
-                </motion.div>
+      {/* Hero media */}
+      <div className="mx-auto mt-14 max-w-[88rem] px-4 sm:px-8">
+        <figure className="overflow-hidden border border-rule bg-paper-2">
+          {project.video ? (
+            <video
+              src={project.video}
+              poster={project.videoPoster ?? project.cover}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              className="aspect-[4/3] w-full object-cover sm:aspect-[16/9]"
+            />
+          ) : (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={project.hero ?? project.cover} alt={`${project.title} screenshot`} className="w-full" />
+          )}
+        </figure>
+      </div>
 
-                {/* Description */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.1 }}
-                    className="mb-12"
-                >
-                    <h2 className="text-2xl font-bold mb-4 flex items-center gap-3">
-                        <span className="w-8 h-1 bg-accent"></span>
-                        Tentang Project
-                    </h2>
-                    <div className="neo-border bg-muted p-6 neo-shadow">
-                        <p className="text-lg leading-relaxed whitespace-pre-line">
-                            {project.longDescription}
-                        </p>
-                    </div>
-                </motion.div>
+      {/* Story */}
+      <div className="mx-auto mt-24 grid max-w-[88rem] gap-14 px-4 sm:mt-32 sm:px-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
+        <p className="text-[clamp(1.5rem,2.6vw,2.25rem)] leading-snug font-semibold tracking-tight lg:sticky lg:top-28 lg:self-start">
+          {project.summary}
+        </p>
+        <div className="space-y-6 text-lg leading-relaxed text-ink-2 sm:text-xl">
+          {project.story.map((para, i) => (
+            <p key={i}>{para}</p>
+          ))}
+        </div>
+      </div>
 
-                {/* Features */}
-                {project.features && project.features.length > 0 && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                        className="mb-12"
-                    >
-                        <h2 className="text-2xl font-bold mb-4 flex items-center gap-3">
-                            <span className="w-8 h-1 bg-accent-secondary"></span>
-                            Fitur Utama
-                        </h2>
-                        <div className="grid md:grid-cols-2 gap-4">
-                            {project.features.map((feature, index) => (
-                                <div
-                                    key={index}
-                                    className="neo-border-thin bg-background p-4 neo-shadow flex items-start gap-3"
-                                >
-                                    <span className="w-6 h-6 flex-shrink-0 bg-accent-secondary flex items-center justify-center font-bold text-sm neo-border-thin">
-                                        {index + 1}
-                                    </span>
-                                    <span className="font-medium">{feature}</span>
-                                </div>
-                            ))}
-                        </div>
-                    </motion.div>
-                )}
+      {/* Highlights */}
+      <div className="mx-auto mt-24 max-w-[88rem] px-4 sm:px-8">
+        <h2 className="text-3xl font-bold tracking-tight sm:text-5xl">Details worth a look</h2>
+        <ul className="mt-10 grid gap-x-12 md:grid-cols-2">
+          {project.highlights.map((h) => (
+            <li key={h} className="border-t border-rule py-5 text-lg">
+              {h}
+            </li>
+          ))}
+        </ul>
+      </div>
 
-                {/* Tech Stack */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.3 }}
-                    className="mb-12"
-                >
-                    <h2 className="text-2xl font-bold mb-4 flex items-center gap-3">
-                        <span className="w-8 h-1 bg-accent-tertiary"></span>
-                        Tech Stack
-                    </h2>
+      {/* Screens */}
+      {project.shots.length > 0 && (
+        <div className="mx-auto mt-24 grid max-w-[88rem] gap-x-6 gap-y-14 px-4 sm:px-8 md:grid-cols-2">
+          {project.shots.map((s) => (
+            <figure key={s.src} className={s.wide ? "md:col-span-2" : ""}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={s.src} alt={s.caption} loading="lazy" className="w-full border border-rule" />
+              <figcaption className="mt-3 max-w-xl text-ink-2">{s.caption}</figcaption>
+            </figure>
+          ))}
+        </div>
+      )}
 
-                    {/* Tags */}
-                    <div className="flex flex-wrap gap-3 mb-6">
-                        {project.tags.map((tag) => (
-                            <span
-                                key={tag}
-                                className="px-4 py-2 text-sm font-bold bg-foreground text-background neo-border-thin"
-                            >
-                                {tag}
-                            </span>
-                        ))}
-                    </div>
-
-                    {/* Tech Details */}
-                    {project.techDetails && project.techDetails.length > 0 && (
-                        <div className="grid gap-4">
-                            {project.techDetails.map((tech, index) => (
-                                <div
-                                    key={index}
-                                    className="neo-border bg-background p-5 neo-shadow flex flex-col md:flex-row md:items-center gap-3"
-                                >
-                                    <span className="font-bold text-lg min-w-[140px]">
-                                        {tech.name}
-                                    </span>
-                                    <span className="hidden md:block w-px h-8 bg-border"></span>
-                                    <span className="text-muted-foreground">
-                                        {tech.description}
-                                    </span>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </motion.div>
-
-                {/* Bottom CTA */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.4 }}
-                    className="text-center"
-                >
-                    <div className="neo-border bg-accent p-8 neo-shadow-lg">
-                        <h3 className="text-2xl font-bold mb-4">
-                            Tertarik dengan project ini?
-                        </h3>
-                        <p className="text-lg mb-6">
-                            Lihat demo langsung atau jelajahi source code-nya di GitHub!
-                        </p>
-                        <div className="flex justify-center gap-4 flex-wrap">
-                            {project.liveUrl && (
-                                <Link
-                                    href={project.liveUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="px-8 py-4 bg-foreground text-background font-bold text-lg neo-border-thin neo-hover"
-                                >
-                                    Coba Sekarang →
-                                </Link>
-                            )}
-                            <Link
-                                href="/projects"
-                                className="px-8 py-4 bg-background text-foreground font-bold text-lg neo-border-thin neo-hover"
-                            >
-                                Lihat Project Lain
-                            </Link>
-                        </div>
-                    </div>
-                </motion.div>
-            </div>
-        </article>
-    );
+      {/* Next project */}
+      <Link
+        href={`/projects/${next.slug}`}
+        className="group mt-28 block border-t border-rule py-14 transition-colors duration-300 hover:bg-hi sm:mt-40 sm:py-20"
+      >
+        <div className="mx-auto max-w-[88rem] px-4 sm:px-8">
+          <p className="text-ink-2">Next project</p>
+          <p className="mt-2 flex items-baseline justify-between gap-6 text-[clamp(2.5rem,9vw,8rem)] leading-none font-extrabold tracking-[-0.045em]">
+            {next.title}
+            <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-2">
+              →
+            </span>
+          </p>
+        </div>
+      </Link>
+    </article>
+  );
 }

@@ -1,68 +1,70 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "motion/react";
-import Link from "next/link";
-import { projects } from "@/data/projects";
-import { ProjectCard } from "./ProjectCard";
+import { useEffect, useRef, useState } from "react";
+import { projects, type Project } from "@/data/projects";
+import { ProjectCard } from "@/components/ProjectCard";
 
+/** The work index: big type rows, with a preview that follows the cursor on desktop. */
 export function Projects() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [active, setActive] = useState<Project | null>(null);
+  const preview = useRef<HTMLDivElement>(null);
+  const target = useRef({ x: 0, y: 0 });
+  const pos = useRef({ x: 0, y: 0 });
 
-  const featuredProjects = projects.filter((p) => p.featured).slice(0, 3);
+  useEffect(() => {
+    const fine = window.matchMedia("(pointer: fine)").matches;
+    if (!fine) return;
+    let raf = 0;
+    const move = (e: MouseEvent) => {
+      target.current = { x: e.clientX, y: e.clientY };
+    };
+    const tick = () => {
+      pos.current.x += (target.current.x - pos.current.x) * 0.16;
+      pos.current.y += (target.current.y - pos.current.y) * 0.16;
+      if (preview.current) {
+        preview.current.style.transform = `translate3d(${pos.current.x + 28}px, ${pos.current.y - 130}px, 0)`;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    window.addEventListener("mousemove", move, { passive: true });
+    raf = requestAnimationFrame(tick);
+    return () => {
+      window.removeEventListener("mousemove", move);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
 
   return (
-    <section id="projects" className="py-32 px-6 bg-muted" ref={ref}>
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-16">
-          <div>
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6 }}
-            >
-              <span className="inline-block px-4 py-2 bg-accent text-background font-semibold neo-border-thin neo-shadow mb-6">
-                Featured Work
-              </span>
-            </motion.div>
+    <>
+      <ul>
+        {projects.map((p) => (
+          <ProjectCard key={p.slug} project={p} onHover={setActive} />
+        ))}
+      </ul>
 
-            <motion.h2
-              initial={{ opacity: 0, y: 50 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-4xl md:text-5xl font-black"
-            >
-              Selected{" "}
-              <span className="relative inline-block">
-                <span className="relative z-10">Projects</span>
-                <span className="absolute bottom-1 left-0 w-full h-3 bg-accent-secondary -z-0" />
-              </span>
-            </motion.h2>
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <Link
-              href="/projects"
-              className="inline-block mt-6 md:mt-0 px-6 py-3 bg-background font-bold neo-border neo-shadow neo-hover"
-            >
-              See All Projects →
-            </Link>
-          </motion.div>
-        </div>
-
-        {/* Projects Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {featuredProjects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
+      <div
+        ref={preview}
+        aria-hidden
+        className="pointer-events-none fixed top-0 left-0 z-40 hidden md:block"
+      >
+        <div
+          className={`h-[16rem] w-[21rem] overflow-hidden border border-ink bg-paper-2 transition-[opacity,scale] duration-300 ${
+            active ? "scale-100 opacity-100" : "scale-90 opacity-0"
+          }`}
+        >
+          {projects.map((p) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              key={p.slug}
+              src={p.cover}
+              alt=""
+              className={`absolute inset-0 h-full w-full object-cover object-top transition-opacity duration-200 ${
+                active?.slug === p.slug ? "opacity-100" : "opacity-0"
+              }`}
+            />
           ))}
         </div>
       </div>
-    </section>
+    </>
   );
 }

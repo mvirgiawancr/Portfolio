@@ -1,33 +1,39 @@
 import type { Metadata } from "next";
-import { Outfit, JetBrains_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { CustomCursor } from "@/components/CustomCursor";
 
-const outfit = Outfit({
-  variable: "--font-outfit",
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-bricolage",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
 });
 
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-geist-mono",
+const hanken = Hanken_Grotesk({
+  variable: "--font-hanken",
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
+});
+
+const jetbrains = JetBrains_Mono({
+  variable: "--font-jetbrains",
+  subsets: ["latin"],
+  weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
-  title: "Moch Virgiawan Caesar Ridollohi | Portfolio",
-  description: "Personal portfolio of Moch Virgiawan Caesar Ridollohi - Full Stack Developer",
-  keywords: ["developer", "portfolio", "web development", "next.js", "full stack"],
+  title: "Virgiawan · Full-stack developer in Bandung",
+  description:
+    "Moch Virgiawan Caesar Ridollohi builds web apps, AI features, smart contracts and the launch videos that go with them.",
+  keywords: ["full-stack developer", "Next.js", "AI web app", "smart contracts", "freelance", "Bandung"],
   authors: [{ name: "Moch Virgiawan Caesar Ridollohi" }],
-  icons: {
-    icon: "/icon.svg",
-  },
+  icons: { icon: "/icon.svg" },
   openGraph: {
-    title: "Moch Virgiawan Caesar Ridollohi | Portfolio",
-    description: "Personal portfolio of Moch Virgiawan Caesar Ridollohi - Full Stack Developer",
+    title: "Virgiawan · Full-stack developer in Bandung",
+    description:
+      "Web apps, AI features, smart contracts and the launch videos that go with them.",
     type: "website",
+    images: ["/work/sift/cover.png"],
   },
 };
 
@@ -38,10 +44,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${outfit.variable} ${jetbrainsMono.variable} font-sans antialiased bg-background text-foreground`}
-      >
-        <CustomCursor />
+      <body className={`${bricolage.variable} ${hanken.variable} ${jetbrains.variable} antialiased`}>
         <Navbar />
         <main>{children}</main>
         <Footer />

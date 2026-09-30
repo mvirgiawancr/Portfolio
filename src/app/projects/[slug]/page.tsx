@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getProjectBySlug, getAllProjectSlugs } from "@/data/projects";
+import { getProjectBySlug, getAllProjectSlugs, getNextProject } from "@/data/projects";
 import { ProjectDetail } from "@/components/ProjectDetail";
 
 interface ProjectPageProps {
@@ -24,13 +24,13 @@ export async function generateMetadata({
 
     if (!project) {
         return {
-            title: "Project Not Found | Portfolio",
+            title: "Project not found · Virgiawan",
         };
     }
 
     return {
-        title: `${project.title} | Portfolio`,
-        description: project.description,
+        title: `${project.title} · Virgiawan`,
+        description: project.summary,
     };
 }
 
@@ -42,5 +42,5 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         notFound();
     }
 
-    return <ProjectDetail project={project} />;
+    return <ProjectDetail project={project} next={getNextProject(slug)} />;
 }
