@@ -30,6 +30,72 @@ export interface Project {
 
 export const projects: Project[] = [
     {
+        slug: "leash",
+        title: "Leash",
+        kind: "AI agent + payments",
+        year: "2026",
+        role: "Product idea, agent design, full-stack, visual design, demo video",
+        tagline: "Give your agent a budget, not your card.",
+        summary:
+            "An AI agent that shops for you inside rules you sign, pays through PayPal, and asks before anything big. Built for the PayPal AI Hackathon.",
+        story: [
+            "AI agents can now find a product, compare it and pay for it. But would you hand one your card? Most people would not, and approving every single step defeats the point of having an agent.",
+            "Leash is the middle ground people already use with each other: an allowance with rules. You write them in plain English, the AI drafts them as a mandate, you check every number and sign. The agent then shops inside that mandate and pays through your PayPal wallet.",
+            "The limits live in the app's code, not in the AI's instructions, so the agent can only propose. The whole interface is built around financial paper: cheque stock for the rules, receipt tape for the ledger, rubber stamps for decisions and a parcel tag for each purchase.",
+        ],
+        highlights: [
+            "Connect PayPal once with the Vault API, so no card numbers ever touch the app",
+            "Rules written in plain English become a structured mandate you sign",
+            "The agent's reasoning shown as a contact sheet: the pick circled, runner-ups struck through",
+            "Out-of-scope requests are refused before any search, anything above your ask-first line is held for approval",
+            "Even \"I pre-approve everything\" gets held, because the purchase tool only accepts items the mandate check cleared",
+            "Every move prints on a ledger tape with the real PayPal order, capture and payout IDs, and one click refunds it",
+        ],
+        stack: ["Next.js 16", "React 19", "TypeScript", "Vercel AI SDK", "PayPal APIs", "Neon Postgres"],
+        links: [
+            { label: "Live demo", href: "https://leash.virlabs.my.id" },
+            { label: "Source code", href: "https://github.com/mvirgiawancr/leash" },
+        ],
+        cover: "/work/leash/cover.jpg",
+        hero: "/work/leash/landing.jpg",
+        shots: [
+            { src: "/work/leash/mandate.jpg", caption: "The rules, written in your own words and signed like a cheque.", wide: true },
+            { src: "/work/leash/refused.jpg", caption: "Out of scope means no search and no money moved." },
+        ],
+    },
+    {
+        slug: "lantern-hollow",
+        title: "Lantern Hollow",
+        kind: "Interactive game",
+        year: "2026",
+        role: "Concept, scene, shaders and sound; hand-finished in the Rive Editor",
+        tagline: "Five ghosts are hiding. Find them with the light.",
+        summary:
+            "A dark room, a flashlight that follows your cursor, and ghosts that only exist inside the beam. Made for the Rive Halloween Challenge.",
+        story: [
+            "The cursor is your lantern. Ghosts hide across a bedroom, a graveyard and an attic, and only show themselves while the light is on them. Find them all, and the last one finds you.",
+            "The scene is authored with the Rive CLI in RML, with two GPU shaders: a fog and flashlight cone with shadows cast by the furniture, and a CRT glitch that takes over for the finale. Luau scripts wire the pointer to the shaders and handle the hit test between the beam and each ghost.",
+            "I finished it by hand in the Rive Editor, and recorded the whole process on video.",
+        ],
+        highlights: [
+            "Fog and flashlight shader with dynamic shadows from furniture and ghosts",
+            "Twelve ghost gags, one per ghost per room, picked by the state machine",
+            "Eyes that follow the light, dust motes in the beam, a portrait that watches you",
+            "Lantern battery that drains, a hidden spare, and a losing screen",
+            "CRT glitch and screen shake finale, with a synthesized soundscape",
+            "Hand-set in Pirata One, with a night-ink and lantern-amber palette",
+        ],
+        stack: ["Rive", "RML", "WGSL shaders", "Luau", "Data binding"],
+        links: [],
+        cover: "/work/lantern/window.jpg",
+        hero: "/work/lantern/intro.jpg",
+        shots: [
+            { src: "/work/lantern/window.jpg", caption: "A ghost caught in the window of the bedroom." },
+            { src: "/work/lantern/graveyard.jpg", caption: "The graveyard: the beam is the only thing you can see by." },
+            { src: "/work/lantern/finale.jpg", caption: "The finale: you found them all, they found you.", wide: true },
+        ],
+    },
+    {
         slug: "sift",
         title: "Sift",
         kind: "AI web app",
