@@ -57,7 +57,8 @@ export const projects: Project[] = [
             { label: "Source code", href: "https://github.com/mvirgiawancr/leash" },
         ],
         cover: "/work/leash/cover.jpg",
-        hero: "/work/leash/landing.jpg",
+        video: "/work/leash/demo.mp4",
+        videoPoster: "/work/leash/landing.jpg",
         shots: [
             { src: "/work/leash/mandate.jpg", caption: "The rules, written in your own words and signed like a cheque.", wide: true },
             { src: "/work/leash/refused.jpg", caption: "Out of scope means no search and no money moved." },
