@@ -22,14 +22,14 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Virgiawan · Full-stack developer in Bandung",
+  title: "mvirgiawancr · Full-stack developer in Bandung",
   description:
     "Moch Virgiawan Caesar Ridollohi builds web apps, AI features, smart contracts and the launch videos that go with them.",
   keywords: ["full-stack developer", "Next.js", "AI web app", "smart contracts", "freelance", "Bandung"],
   authors: [{ name: "Moch Virgiawan Caesar Ridollohi" }],
   icons: { icon: "/icon.svg" },
   openGraph: {
-    title: "Virgiawan · Full-stack developer in Bandung",
+    title: "mvirgiawancr · Full-stack developer in Bandung",
     description:
       "Web apps, AI features, smart contracts and the launch videos that go with them.",
     type: "website",

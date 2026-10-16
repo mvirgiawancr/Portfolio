@@ -22,7 +22,7 @@ export function Hero() {
             className="rise max-w-xl text-lg leading-relaxed text-ink-2 sm:text-xl"
             style={{ "--i": 3 } as React.CSSProperties}
           >
-            I&apos;m Virgiawan. I design and build web apps, AI features and smart contracts, then make the launch
+            I&apos;m mvirgiawancr. I design and build web apps, AI features and smart contracts, then make the launch
             video. Currently open for freelance work.
           </p>
           <div className="rise flex flex-wrap items-center gap-x-6 gap-y-3" style={{ "--i": 4 } as React.CSSProperties}>

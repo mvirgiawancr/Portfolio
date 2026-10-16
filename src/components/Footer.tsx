@@ -33,9 +33,9 @@ export function Footer() {
 
         <p
           aria-hidden
-          className="mt-16 select-none font-display text-[21vw] leading-[0.8] font-extrabold tracking-[-0.06em] text-paper/[0.07] sm:text-[18vw]"
+          className="mt-16 select-none font-display text-[15.5vw] leading-[0.8] font-extrabold tracking-[-0.06em] text-paper/[0.07] sm:text-[13.5vw]"
         >
-          Virgiawan
+          mvirgiawancr
         </p>
 
         <div className="mt-6 flex flex-col gap-2 border-t border-paper/15 pt-6 text-sm text-paper/50 sm:flex-row sm:justify-between">

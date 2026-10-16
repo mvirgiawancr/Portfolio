@@ -1,6 +1,6 @@
 ﻿export const site = {
     name: "Moch Virgiawan Caesar Ridollohi",
-    short: "Virgiawan",
+    short: "mvirgiawancr",
     email: "mochvirgiawancr@gmail.com",
     calendly: "https://calendly.com/mochvirgiawancr/30min",
     location: "Bandung, Indonesia",

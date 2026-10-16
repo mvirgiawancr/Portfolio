@@ -24,12 +24,12 @@ export async function generateMetadata({
 
     if (!project) {
         return {
-            title: "Project not found · Virgiawan",
+            title: "Project not found · mvirgiawancr",
         };
     }
 
     return {
-        title: `${project.title} · Virgiawan`,
+        title: `${project.title} · mvirgiawancr`,
         description: project.summary,
     };
 }

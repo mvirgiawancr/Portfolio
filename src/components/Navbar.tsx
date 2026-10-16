@@ -31,9 +31,9 @@ export function Navbar() {
       }`}
     >
       <nav className="mx-auto flex h-16 max-w-[88rem] items-center justify-between px-4 sm:px-8">
-        <Link href="/" aria-label="Virgiawan, home" className="group flex items-center gap-3 whitespace-nowrap">
+        <Link href="/" aria-label="mvirgiawancr, home" className="group flex items-center gap-3 whitespace-nowrap">
           <Logo className="size-8 transition-transform duration-300 group-hover:-rotate-6" />
-          <span className="font-display text-lg font-bold tracking-tight">Virgiawan</span>
+          <span className="font-display text-lg font-bold tracking-tight">mvirgiawancr</span>
         </Link>
 
         <div className="hidden items-center gap-8 md:flex">

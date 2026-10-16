@@ -3,7 +3,7 @@ import { Projects } from "@/components/Projects";
 import { projects } from "@/data/projects";
 
 export const metadata: Metadata = {
-  title: "Work · Virgiawan",
+  title: "Work · mvirgiawancr",
   description: "Web apps, a smart-contract dApp, a landing page and launch videos, all built end to end.",
 };
 
