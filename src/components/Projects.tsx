@@ -5,7 +5,8 @@ import { projects, type Project } from "@/data/projects";
 import { ProjectCard } from "@/components/ProjectCard";
 
 /** The work index: big type rows, with a preview that follows the cursor on desktop. */
-export function Projects() {
+export function Projects({ limit }: { limit?: number }) {
+  const shown = limit ? projects.slice(0, limit) : projects;
   const [active, setActive] = useState<Project | null>(null);
   const preview = useRef<HTMLDivElement>(null);
   const target = useRef({ x: 0, y: 0 });
@@ -37,7 +38,7 @@ export function Projects() {
   return (
     <>
       <ul>
-        {projects.map((p) => (
+        {shown.map((p) => (
           <ProjectCard key={p.slug} project={p} onHover={setActive} />
         ))}
       </ul>
@@ -52,7 +53,7 @@ export function Projects() {
             active ? "scale-100 opacity-100" : "scale-90 opacity-0"
           }`}
         >
-          {projects.map((p) => (
+          {shown.map((p) => (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               key={p.slug}

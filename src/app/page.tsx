@@ -4,6 +4,10 @@ import { Projects } from "@/components/Projects";
 import { Services } from "@/components/Services";
 import { About } from "@/components/About";
 import { Contact } from "@/components/Contact";
+import { projects } from "@/data/projects";
+
+// the home page shows the newest few; /projects has all of them
+const SELECTED = 5;
 
 export default function Home() {
   return (
@@ -16,10 +20,13 @@ export default function Home() {
             Selected work
           </h2>
           <Link href="/projects" className="link-line hidden whitespace-nowrap font-medium sm:inline-block">
-            All projects
+            All projects ({projects.length})
           </Link>
         </div>
-        <Projects />
+        <Projects limit={SELECTED} />
+        <Link href="/projects" className="link-line mt-10 inline-block font-medium">
+          See all {projects.length} projects
+        </Link>
       </section>
 
       <Services />
