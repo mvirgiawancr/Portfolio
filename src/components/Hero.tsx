@@ -1,79 +1,79 @@
 ﻿import Link from "next/link";
-import { projects } from "@/data/projects";
 import { site } from "@/data/site";
 
+/** Full-bleed opening frame: the still, a slate row, one line of type, one way in. */
 export function Hero() {
   return (
-    <section className="relative pt-28 sm:pt-36">
-      <div className="mx-auto max-w-[88rem] px-4 sm:px-8">
-        <p className="rise font-mono text-xs uppercase tracking-widest text-ink-2" style={{ "--i": 0 } as React.CSSProperties}>
-          Full-stack developer · {site.location}
-        </p>
-
-        <h1
-          className="rise mt-6 max-w-[16ch] text-[clamp(3rem,10.5vw,9.5rem)] leading-[0.92] font-extrabold tracking-[-0.045em]"
-          style={{ "--i": 1 } as React.CSSProperties}
-        >
-          Small products, built <span className="mark">end to end.</span>
-        </h1>
-
-        <div className="mt-10 grid gap-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
-          <p
-            className="rise max-w-xl text-lg leading-relaxed text-ink-2 sm:text-xl"
-            style={{ "--i": 3 } as React.CSSProperties}
-          >
-            I&apos;m mvirgiawancr. I design and build web apps, AI features and smart contracts, then make the launch
-            video. Currently open for freelance work.
-          </p>
-          <div className="rise flex flex-wrap items-center gap-x-6 gap-y-3" style={{ "--i": 4 } as React.CSSProperties}>
-            <a
-              href={site.calendly}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-ink px-6 py-3.5 font-medium text-paper transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0"
-            >
-              Book a 30-min call
-              <span aria-hidden>↗</span>
-            </a>
-            <Link href="/projects" className="link-line whitespace-nowrap font-medium">
-              See the work
-            </Link>
-          </div>
-        </div>
+    <section className="relative isolate flex min-h-svh flex-col overflow-hidden bg-ink text-paper">
+      {/* The still, with a slow push in and a scrim that lands on ink so the next section continues it */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/hero/dawn.jpg"
+          alt="Dawn over the highlands of Bandung, layered ridges fading into haze"
+          className="kenburns h-full w-full object-cover object-[56%_45%]"
+          fetchPriority="high"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/25 to-ink/40" />
+        <div className="absolute inset-0 bg-[radial-gradient(115%_75%_at_68%_40%,transparent_30%,oklch(16.5%_0.014_240/0.55)_100%)]" />
       </div>
 
+      <div className="mx-auto flex w-full max-w-[96rem] flex-1 flex-col px-5 pt-20 pb-10 sm:px-10 sm:pt-24 sm:pb-14">
+        {/* Slate: the facts a title card carries, on one rule */}
+        <dl
+          className="rise grid grid-cols-[3.5rem_minmax(0,1fr)] gap-x-4 gap-y-1.5 border-b border-paper/15 pb-3 sm:flex sm:flex-wrap sm:items-baseline sm:gap-x-8 sm:gap-y-2"
+          style={{ "--i": 0 } as React.CSSProperties}
+        >
+          <div className="contents sm:flex sm:gap-3">
+            <dt className="label text-paper/40">Name</dt>
+            <dd className="label text-paper/85">{site.name}</dd>
+          </div>
+          <div className="contents sm:flex sm:gap-3">
+            <dt className="label text-paper/40">Role</dt>
+            <dd className="label text-paper/85">{site.role}</dd>
+          </div>
+          <div className="contents sm:flex sm:gap-3 sm:ml-auto">
+            <dt className="label text-paper/40">Based</dt>
+            <dd className="label text-paper/85">Bandung</dd>
+          </div>
+        </dl>
 
-      {/* Real projects: slow auto-scroll, pauses on hover; manual scroll if motion is reduced */}
-      <div className="marquee mt-16 pb-4 sm:mt-24">
-        <ul className="marquee-track flex w-max items-start">
-          {[...projects, ...projects].map((p, i) => (
-            <li
-              key={`${p.slug}-${i}`}
-              aria-hidden={i >= projects.length}
-              className="w-[68vw] shrink-0 pr-4 sm:w-[34vw] sm:pr-6 lg:w-[24vw]"
-              style={{ marginTop: i % 2 ? "2.5rem" : 0 }}
+        <div className="mt-auto pt-14 sm:pt-16">
+          <h1
+            className="rise max-w-[16ch] text-[clamp(2.5rem,10.5vw,7.5rem)] leading-[0.95] tracking-[-0.025em] text-balance"
+            style={{ "--i": 1 } as React.CSSProperties}
+          >
+            Small products, built <em className="text-ember not-italic">end to end.</em>
+          </h1>
+
+          <div className="mt-7 flex flex-col gap-6 sm:mt-9 md:flex-row md:items-end md:justify-between md:gap-10">
+            <p
+              className="rise max-w-lg text-[0.95rem] leading-relaxed text-paper/70 sm:text-lg"
+              style={{ "--i": 2 } as React.CSSProperties}
+            >
+              I&apos;m {site.short}. I build web apps, AI features and smart contracts, then shoot the launch video.
+              Most of it starts as a hackathon brief with a deadline I can&apos;t move.
+            </p>
+
+            <div
+              className="rise flex flex-col items-start gap-3 sm:flex-row sm:items-baseline sm:gap-8"
+              style={{ "--i": 3 } as React.CSSProperties}
             >
               <Link
-                href={`/projects/${p.slug}`}
-                tabIndex={i >= projects.length ? -1 : undefined}
-                className="group block"
+                href="#work"
+                className="group inline-flex items-baseline gap-3 border-b border-ember pb-1 text-lg text-paper"
               >
-                <figure className="overflow-hidden border border-rule bg-paper-2">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={p.cover}
-                    alt={i >= projects.length ? "" : `${p.title} preview`}
-                    className="aspect-[4/3] w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-                  />
-                </figure>
-                <p className="mt-3 flex items-baseline justify-between gap-3 text-sm">
-                  <span className="font-medium">{p.title}</span>
-                  <span className="text-ink-2">{p.kind}</span>
-                </p>
+                See the work
+                <span aria-hidden className="text-ember transition-transform duration-300 group-hover:translate-y-0.5">
+                  ↓
+                </span>
               </Link>
-            </li>
-          ))}
-        </ul>
+              <a href={`mailto:${site.email}`} className="link-line text-sm text-paper/60 hover:text-paper sm:text-base">
+                {site.email}
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

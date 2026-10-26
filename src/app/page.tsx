@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { Hero } from "@/components/Hero";
 import { Projects } from "@/components/Projects";
-import { Services } from "@/components/Services";
-import { About } from "@/components/About";
+import { Background } from "@/components/Background";
 import { Contact } from "@/components/Contact";
 import { projects } from "@/data/projects";
 
@@ -14,23 +13,20 @@ export default function Home() {
     <>
       <Hero />
 
-      <section id="work" className="mx-auto max-w-[88rem] px-4 pt-24 pb-24 sm:px-8 sm:pt-32">
-        <div className="mb-10 flex items-end justify-between gap-6 sm:mb-14">
-          <h2 className="text-[clamp(2.25rem,5vw,4.5rem)] leading-none font-bold tracking-[-0.04em]">
-            Selected work
-          </h2>
-          <Link href="/projects" className="link-line hidden whitespace-nowrap font-medium sm:inline-block">
-            All projects ({projects.length})
-          </Link>
+      {/* Still on ink: the hero frame simply keeps going into the index */}
+      <section id="work" className="bg-ink text-paper">
+        <div className="mx-auto max-w-[96rem] px-5 pt-14 pb-20 sm:px-10 sm:pt-16 sm:pb-28">
+          <div className="mb-2 flex items-end justify-between gap-6 border-b border-paper/15 pb-4 sm:mb-4">
+            <h2 className="text-[clamp(2rem,4.4vw,3.75rem)] leading-[1] tracking-[-0.02em]">Selected work</h2>
+            <Link href="/projects" className="link-line mb-1 shrink-0 text-sm text-paper/55 hover:text-paper">
+              All {projects.length}
+            </Link>
+          </div>
+          <Projects limit={SELECTED} />
         </div>
-        <Projects limit={SELECTED} />
-        <Link href="/projects" className="link-line mt-10 inline-block font-medium">
-          See all {projects.length} projects
-        </Link>
       </section>
 
-      <Services />
-      <About />
+      <Background />
       <Contact />
     </>
   );

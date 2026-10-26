@@ -361,9 +361,7 @@ export const projects: Project[] = [
             "Burned-in subtitles so it works with the sound off",
         ],
         stack: ["HTML", "GSAP", "Puppeteer", "ffmpeg"],
-        links: [
-            { label: "Contra profile", href: "https://contra.com/moch_virgiawan_caesar_r_w19nvsk6" },
-        ],
+        links: [],
         cover: "/work/reel/cover.png",
         video: "/work/reel/reel.mp4",
         videoPoster: "/work/reel/cover.png",

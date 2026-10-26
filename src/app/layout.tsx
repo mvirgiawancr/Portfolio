@@ -1,39 +1,34 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Instrument_Serif, Archivo } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
-const bricolage = Bricolage_Grotesque({
-  variable: "--font-bricolage",
+const serif = Instrument_Serif({
+  variable: "--font-serif",
   subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
 });
 
-const hanken = Hanken_Grotesk({
-  variable: "--font-hanken",
+const archivo = Archivo({
+  variable: "--font-archivo",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-});
-
-const jetbrains = JetBrains_Mono({
-  variable: "--font-jetbrains",
-  subsets: ["latin"],
-  weight: ["400", "500"],
+  axes: ["wdth"],
 });
 
 export const metadata: Metadata = {
   title: "mvirgiawancr · Full-stack developer in Bandung",
   description:
-    "Moch Virgiawan Caesar Ridollohi builds web apps, AI features, smart contracts and the launch videos that go with them.",
-  keywords: ["full-stack developer", "Next.js", "AI web app", "smart contracts", "freelance", "Bandung"],
+    "Moch Virgiawan Caesar Ridollohi, a full-stack developer in Bandung. Web apps, AI features and smart contracts, mostly built against hackathon deadlines.",
+  keywords: ["full-stack developer", "frontend engineer", "Next.js", "AI web app", "smart contracts", "Bandung"],
   authors: [{ name: "Moch Virgiawan Caesar Ridollohi" }],
   icons: { icon: "/icon.svg" },
   openGraph: {
     title: "mvirgiawancr · Full-stack developer in Bandung",
-    description:
-      "Web apps, AI features, smart contracts and the launch videos that go with them.",
+    description: "Web apps, AI features and smart contracts, mostly built against hackathon deadlines.",
     type: "website",
-    images: ["/work/sift/cover.png"],
+    images: ["/hero/dawn.jpg"],
   },
 };
 
@@ -44,7 +39,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${bricolage.variable} ${hanken.variable} ${jetbrains.variable} antialiased`}>
+      <body className={`${serif.variable} ${archivo.variable} antialiased`}>
         <Navbar />
         <main>{children}</main>
         <Footer />

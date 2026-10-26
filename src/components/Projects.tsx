@@ -49,8 +49,8 @@ export function Projects({ limit }: { limit?: number }) {
         className="pointer-events-none fixed top-0 left-0 z-40 hidden md:block"
       >
         <div
-          className={`h-[16rem] w-[21rem] overflow-hidden border border-ink bg-paper-2 transition-[opacity,scale] duration-300 ${
-            active ? "scale-100 opacity-100" : "scale-90 opacity-0"
+          className={`relative h-[15rem] w-[20rem] overflow-hidden border border-paper/20 bg-ink transition-[opacity,scale] duration-300 ${
+            active ? "scale-100 opacity-100" : "scale-95 opacity-0"
           }`}
         >
           {shown.map((p) => (

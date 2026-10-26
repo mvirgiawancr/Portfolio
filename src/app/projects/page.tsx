@@ -9,12 +9,14 @@ export const metadata: Metadata = {
 
 export default function ProjectsPage() {
   return (
-    <section className="mx-auto max-w-[88rem] px-4 pt-32 pb-24 sm:px-8 sm:pt-40">
-      <h1 className="text-[clamp(3rem,10vw,9rem)] leading-[0.92] font-extrabold tracking-[-0.045em]">Work</h1>
-      <p className="mt-6 mb-14 max-w-xl text-lg text-ink-2 sm:text-xl">
-        {projects.length} projects, each designed, built and launched by me.
-      </p>
-      <Projects />
+    <section className="bg-ink text-paper">
+      <div className="mx-auto max-w-[96rem] px-5 pt-24 pb-20 sm:px-10 sm:pt-32 sm:pb-28">
+        <h1 className="text-[clamp(2.5rem,9vw,7rem)] leading-[0.94] tracking-[-0.03em]">Work</h1>
+        <p className="mt-4 mb-10 max-w-md text-base text-paper/55 sm:mb-12 sm:text-lg">
+          {projects.length} projects, each designed, built and launched by me.
+        </p>
+        <Projects />
+      </div>
     </section>
   );
 }

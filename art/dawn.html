@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dawn over the highlands</title>
+    <!-- Source for public/hero/dawn.jpg. Render at 2560x1440, screenshot, done.
+         Ridges are midpoint-displaced from a fixed seed, so the render is deterministic. -->
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: #060a13;
+        overflow: hidden;
+      }
+      svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <svg id="scene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0.12" y2="1">
+          <stop offset="0" stop-color="#04070d" />
+          <stop offset="0.15" stop-color="#0a1120" />
+          <stop offset="0.3" stop-color="#141c2e" />
+          <stop offset="0.44" stop-color="#262839" />
+          <stop offset="0.55" stop-color="#3f3646" />
+          <stop offset="0.65" stop-color="#6a4a4c" />
+          <stop offset="0.74" stop-color="#9c6749" />
+          <stop offset="0.82" stop-color="#c98a55" />
+          <stop offset="0.9" stop-color="#e6ae74" />
+        </linearGradient>
+
+        <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0" stop-color="#fff8ea" stop-opacity="0.95" />
+          <stop offset="0.13" stop-color="#ffdfb2" stop-opacity="0.5" />
+          <stop offset="0.42" stop-color="#eeab6c" stop-opacity="0.18" />
+          <stop offset="1" stop-color="#eeab6c" stop-opacity="0" />
+        </radialGradient>
+
+        <linearGradient id="mist" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#f7d5b4" stop-opacity="0" />
+          <stop offset="0.5" stop-color="#f7d5b4" stop-opacity="0.4" />
+          <stop offset="1" stop-color="#f7d5b4" stop-opacity="0" />
+        </linearGradient>
+
+        <radialGradient id="vignette" cx="0.6" cy="0.5" r="0.8">
+          <stop offset="0.4" stop-color="#000" stop-opacity="0" />
+          <stop offset="1" stop-color="#000" stop-opacity="0.6" />
+        </radialGradient>
+
+        <filter id="soft" x="-30%" y="-300%" width="160%" height="700%">
+          <feGaussianBlur stdDeviation="14" />
+        </filter>
+
+        <filter id="edgeSoft" x="-5%" y="-20%" width="110%" height="140%">
+          <feGaussianBlur stdDeviation="1.1" />
+        </filter>
+
+        <filter id="grain">
+          <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch" />
+          <feColorMatrix type="saturate" values="0" />
+        </filter>
+      </defs>
+
+      <rect width="1600" height="900" fill="url(#sky)" />
+
+      <!-- thin cloud bands, lit from below -->
+      <g id="clouds"></g>
+
+      <!-- sun, low behind the far range -->
+      <ellipse cx="1116" cy="500" rx="540" ry="300" fill="url(#glow)" />
+      <circle cx="1116" cy="486" r="15" fill="#fffaf0" opacity="0.95" />
+      <circle cx="1116" cy="486" r="38" fill="url(#glow)" opacity="0.9" />
+
+      <g id="ridges"></g>
+      <g id="mist"></g>
+      <g id="lights" fill="#ffb570"></g>
+
+      <rect width="1600" height="900" fill="url(#vignette)" />
+      <rect width="1600" height="900" filter="url(#grain)" opacity="0.05" style="mix-blend-mode: overlay" />
+    </svg>
+
+    <script>
+      // Seeded PRNG so every render is identical.
+      let seed = 20261026;
+      const rand = () => {
+        seed = (seed * 1664525 + 1013904223) % 4294967296;
+        return seed / 4294967296;
+      };
+
+      // Midpoint displacement: an irregular skyline instead of a sine wave.
+      function ridge(y, height, roughness, steps, tilt) {
+        let pts = [
+          [0, y + tilt],
+          [1600, y - tilt * 0.4 + (rand() - 0.5) * height * 0.5],
+        ];
+        let amp = height;
+        for (let s = 0; s < steps; s++) {
+          const next = [];
+          for (let i = 0; i < pts.length - 1; i++) {
+            const [x1, y1] = pts[i];
+            const [x2, y2] = pts[i + 1];
+            const mx = (x1 + x2) / 2 + (rand() - 0.5) * (x2 - x1) * 0.14;
+            const my = (y1 + y2) / 2 + (rand() - 0.5) * amp;
+            next.push(pts[i], [mx, my]);
+          }
+          next.push(pts[pts.length - 1]);
+          pts = next;
+          amp *= roughness;
+        }
+        return pts;
+      }
+
+      function pathOf(pts) {
+        return (
+          "M0 900 L" +
+          pts.map(([x, y]) => `${x.toFixed(1)} ${y.toFixed(1)}`).join(" L") +
+          " L1600 900 Z"
+        );
+      }
+
+      const NS = "http://www.w3.org/2000/svg";
+      const ridges = document.getElementById("ridges");
+      const mist = document.getElementById("mist");
+      const lights = document.getElementById("lights");
+
+      // far to near: each layer darker, taller, less hazy
+      const layers = [
+        { y: 512, h: 58, rough: 0.7, fill: "#b0918f", op: 0.5, mistAt: 520, tilt: 10 },
+        { y: 574, h: 74, rough: 0.7, fill: "#8a7286", op: 0.74, mistAt: 582, tilt: -18 },
+        { y: 640, h: 96, rough: 0.72, fill: "#63546d", op: 0.93, mistAt: 652, tilt: 26 },
+        { y: 716, h: 84, rough: 0.72, fill: "#33303f", op: 1, mistAt: 728, tilt: -34, town: true },
+        { y: 800, h: 104, rough: 0.74, fill: "#12161f", op: 1, mistAt: 812, tilt: 40 },
+      ];
+
+      layers.forEach((L, idx) => {
+        const pts = ridge(L.y, L.h, L.rough, 7, L.tilt);
+        const p = document.createElementNS(NS, "path");
+        p.setAttribute("d", pathOf(pts));
+        p.setAttribute("fill", L.fill);
+        p.setAttribute("opacity", L.op);
+        p.setAttribute("filter", "url(#edgeSoft)");
+        ridges.appendChild(p);
+
+        const m = document.createElementNS(NS, "rect");
+        m.setAttribute("x", -100);
+        m.setAttribute("y", L.mistAt - 60);
+        m.setAttribute("width", 1800);
+        m.setAttribute("height", 130);
+        m.setAttribute("fill", "url(#mist)");
+        m.setAttribute("opacity", idx < 3 ? 0.75 : 0.35);
+        mist.appendChild(m);
+
+        // town lights sit on the fold of the valley layer only
+        if (L.town) {
+          for (let i = 0; i < 26; i++) {
+            const t = rand();
+            const x = 90 + t * 1420;
+            const near = pts.reduce((best, pt) => (Math.abs(pt[0] - x) < Math.abs(best[0] - x) ? pt : best));
+            const c = document.createElementNS(NS, "circle");
+            c.setAttribute("cx", (near[0] + (rand() - 0.5) * 8).toFixed(1));
+            c.setAttribute("cy", (near[1] + 4 + rand() * 16).toFixed(1));
+            c.setAttribute("r", (0.8 + rand() * 1.1).toFixed(2));
+            c.setAttribute("opacity", (0.25 + rand() * 0.55).toFixed(2));
+            lights.appendChild(c);
+          }
+        }
+      });
+
+      // clouds, drawn last so they sit in front of the sky only
+      const clouds = document.getElementById("clouds");
+      [
+        [1170, 400, 340, 11, 0.34],
+        [960, 356, 250, 8, 0.22],
+        [1320, 436, 250, 9, 0.3],
+        [700, 322, 310, 7, 0.26],
+        [430, 382, 280, 6, 0.22],
+      ].forEach(([cx, cy, rx, ry, op]) => {
+        const e = document.createElementNS(NS, "ellipse");
+        e.setAttribute("cx", cx);
+        e.setAttribute("cy", cy);
+        e.setAttribute("rx", rx);
+        e.setAttribute("ry", ry);
+        e.setAttribute("fill", "#f8c99c");
+        e.setAttribute("opacity", op);
+        e.setAttribute("filter", "url(#soft)");
+        clouds.appendChild(e);
+      });
+    </script>
+  </body>
+</html>

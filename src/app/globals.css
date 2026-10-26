@@ -1,17 +1,18 @@
-/* Hallmark · macrostructure: Marquee Hero + Index · tone: editorial, utilitarian · anchor hue: highlighter lime (~118°)
- * theme: custom · paper oklch(96.5% 0.012 95) · accent oklch(90% 0.19 118) · Bricolage Grotesque + Hanken Grotesk + JetBrains Mono
- * axes: light / grotesk-sans / chromatic-other
+/* Direction: screening room at dawn. A full-bleed still of the Bandung highlands at first light,
+ * letterboxed typography, deep ink + bone paper, one ember accent.
+ * Type: Instrument Serif (display, filmic contrast) + Archivo (text, tight grotesk).
+ * Why: the site is read by people hiring, so it has to feel like a title sequence, not a services page.
  */
 @import "tailwindcss";
 
 :root {
-  --color-paper: oklch(96.5% 0.012 95);
-  --color-paper-2: oklch(92.5% 0.016 95);
-  --color-ink: oklch(21% 0.02 150);
-  --color-ink-2: oklch(42% 0.02 150);
-  --color-rule: oklch(21% 0.02 150 / 0.2);
-  --color-hi: oklch(90% 0.19 118);
-  --color-focus: oklch(45% 0.18 250);
+  --paper: oklch(95.5% 0.012 85);
+  --paper-2: oklch(90.5% 0.016 85);
+  --ink: oklch(16.5% 0.014 240);
+  --ink-2: oklch(40% 0.012 240);
+  --ember: oklch(66% 0.155 48);
+  --rule: oklch(16.5% 0.014 240 / 0.16);
+  --rule-light: oklch(95.5% 0.012 85 / 0.18);
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --dur-fast: 160ms;
@@ -19,16 +20,15 @@
 }
 
 @theme inline {
-  --color-paper: var(--color-paper);
-  --color-paper-2: var(--color-paper-2);
-  --color-ink: var(--color-ink);
-  --color-ink-2: var(--color-ink-2);
-  --color-rule: var(--color-rule);
-  --color-hi: var(--color-hi);
-  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
-}
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ember: var(--ember);
+  --color-rule: var(--rule);
+  --color-rule-light: var(--rule-light);
+  --font-display: var(--font-serif), ui-serif, Georgia, serif;
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;}
 
 html,
 body {
@@ -37,12 +37,12 @@ body {
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 5rem;
+  scroll-padding-top: 4.5rem;
 }
 
 body {
-  background: var(--color-paper);
-  color: var(--color-ink);
+  background: var(--paper);
+  color: var(--ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   font-variant-emoji: text;
@@ -52,27 +52,28 @@ h1,
 h2,
 h3 {
   font-family: var(--font-display);
+  font-weight: 400;
   font-style: normal;
   overflow-wrap: anywhere;
   min-width: 0;
 }
 
 ::selection {
-  background: var(--color-hi);
-  color: var(--color-ink);
+  background: var(--ember);
+  color: var(--ink);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-focus);
+  outline: 2px solid var(--ember);
   outline-offset: 3px;
 }
 
-/* Highlighter band under a word */
-.mark {
-  background-image: linear-gradient(var(--color-hi), var(--color-hi));
-  background-repeat: no-repeat;
-  background-position: 0 88%;
-  background-size: 100% 0.42em;
+/* Slate metadata: small caps used only for the facts a film slate would carry */
+.label {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
 /* Underline that draws in on hover */
@@ -84,14 +85,14 @@ h3 {
   transition: background-size var(--dur-base) var(--ease-out);
 }
 .link-line:hover {
-  background-size: 100% 0.2em;
+  background-size: 100% 0.16em;
 }
 
-/* Entrance */
+/* Entrance: one movement, hero only */
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(18px);
   }
   to {
     opacity: 1;
@@ -100,42 +101,29 @@ h3 {
 }
 .rise {
   opacity: 0;
-  animation: rise 800ms var(--ease-out) forwards;
-  animation-delay: calc(var(--i, 0) * 90ms);
+  animation: rise 900ms var(--ease-out) forwards;
+  animation-delay: calc(var(--i, 0) * 110ms);
 }
 
-/* Hero project strip */
-@keyframes marquee {
+/* The still breathes: a slow push in, like a camera on a tripod */
+@keyframes kenburns {
+  from {
+    transform: scale(1.04) translate3d(0, 0, 0);
+  }
   to {
-    transform: translateX(-50%);
+    transform: scale(1.14) translate3d(-1.5%, -1.5%, 0);
   }
 }
-.marquee {
-  overflow: hidden;
-  padding-left: 1rem;
-}
-.marquee-track {
-  animation: marquee 70s linear infinite;
-}
-.marquee:hover .marquee-track,
-.marquee:focus-within .marquee-track {
-  animation-play-state: paused;
-}
-@media (min-width: 640px) {
-  .marquee {
-    padding-left: 2rem;
-  }
+.kenburns {
+  animation: kenburns 48s var(--ease-out) forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .marquee {
-    overflow-x: auto;
-  }
-  .marquee-track {
-    animation: none !important;
-  }
   html {
     scroll-behavior: auto;
+  }
+  .kenburns {
+    animation: none;
   }
   *,
   *::before,

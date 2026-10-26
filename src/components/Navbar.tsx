@@ -7,8 +7,8 @@ import { site } from "@/data/site";
 import { Logo } from "@/components/Logo";
 
 const links = [
-  { href: "/projects", label: "Work" },
-  { href: "/#about", label: "About" },
+  { href: "/#work", label: "Work" },
+  { href: "/#background", label: "Background" },
   { href: "/#contact", label: "Contact" },
 ];
 
@@ -18,45 +18,44 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setScrolled(window.scrollY > 40);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Bare over the still; once you scroll it turns into a strip of the same ink, so the bar never
+  // cuts a white band across the dark opening.
+  const solid = scrolled || open || pathname !== "/";
+
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        scrolled || open ? "bg-paper/90 backdrop-blur-md border-b border-rule" : "border-b border-transparent"
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${
+        solid
+          ? "border-b border-paper/10 bg-ink/90 text-paper backdrop-blur-md"
+          : "border-b border-transparent text-paper"
       }`}
     >
-      <nav className="mx-auto flex h-16 max-w-[88rem] items-center justify-between px-4 sm:px-8">
-        <Link href="/" aria-label="mvirgiawancr, home" className="group flex items-center gap-3 whitespace-nowrap">
-          <Logo className="size-8 transition-transform duration-300 group-hover:-rotate-6" />
-          <span className="font-display text-lg font-bold tracking-tight">mvirgiawancr</span>
+      <nav className="mx-auto flex h-16 max-w-[96rem] items-center justify-between gap-6 px-5 sm:px-10">
+        <Link href="/" aria-label={`${site.short}, home`} className="flex items-center gap-3 whitespace-nowrap">
+          <Logo className="size-7" />
+          <span className="text-sm font-medium tracking-tight">{site.short}</span>
         </Link>
 
-        <div className="hidden items-center gap-8 md:flex">
-          {links.map((l) => {
-            const active = l.href === "/projects" && pathname.startsWith("/projects");
-            return (
-              <Link
-                key={l.href}
-                href={l.href}
-                className={`text-[15px] whitespace-nowrap transition-colors hover:text-ink ${active ? "text-ink" : "text-ink-2"}`}
-              >
-                {l.label}
-              </Link>
-            );
-          })}
+        <div className="hidden items-center gap-7 md:flex">
+          {links.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              className={`text-sm transition-opacity hover:opacity-100 ${solid ? "opacity-70" : "opacity-80"}`}            >
+              {l.label}
+            </Link>
+          ))}
           <a
-            href={site.calendly}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-ink px-4 py-2 text-[14px] font-medium text-paper transition-transform duration-200 hover:-translate-y-px active:translate-y-0"
+            href={`mailto:${site.email}`}
+            className="border-b border-ember pb-0.5 text-sm"
           >
-            <span className="size-1.5 rounded-full bg-hi" aria-hidden />
-            Book a call
+            Email me
           </a>
         </div>
 
@@ -65,31 +64,30 @@ export function Navbar() {
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
           aria-controls="mobile-nav"
-          className="-mr-2 p-2 font-mono text-xs uppercase tracking-widest md:hidden"
+          className="label -mr-2 p-2 md:hidden"
         >
           {open ? "Close" : "Menu"}
         </button>
       </nav>
 
       {open && (
-        <div id="mobile-nav" className="border-t border-rule px-4 pb-6 pt-2 md:hidden">
+        <div id="mobile-nav" className="border-t border-paper/15 px-5 pt-2 pb-6 md:hidden">
           {links.map((l) => (
             <Link
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className="block border-b border-rule py-4 font-display text-3xl font-semibold"
+              className="block border-b border-paper/15 py-4 font-display text-2xl"
             >
               {l.label}
             </Link>
           ))}
           <a
-            href={site.calendly}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-6 inline-flex rounded-full bg-ink px-5 py-3 font-medium text-paper"
+            href={`mailto:${site.email}`}
+            onClick={() => setOpen(false)}
+            className="mt-6 inline-block border-b border-ember pb-0.5 text-sm"
           >
-            Book a 30-min call
+            {site.email}
           </a>
         </div>
       )}
