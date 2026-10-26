@@ -1,6 +1,7 @@
 ﻿// One-off: re-encode the stills under public/work so the page ships bytes, not originals.
+// Run after dropping new project images in: node scripts/optimize-images.mjs
 // covers -> jpg 1600x1200 (top crop, so they also work as og:image everywhere)
-// everything else -> webp, max 1600 wide, native aspect
+// everything else -> webp, max 1600 wide, native aspect. Then update the paths in src/data/projects.ts.
 import sharp from "sharp";
 import { readFile, readdir, rename, unlink, writeFile } from "node:fs/promises";
 import path from "node:path";
