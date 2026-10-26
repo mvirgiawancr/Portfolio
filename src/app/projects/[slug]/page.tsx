@@ -31,6 +31,11 @@ export async function generateMetadata({
     return {
         title: `${project.title} · mvirgiawancr`,
         description: project.summary,
+        openGraph: {
+            title: `${project.title} · mvirgiawancr`,
+            description: project.tagline,
+            images: [project.cover],
+        },
     };
 }
 

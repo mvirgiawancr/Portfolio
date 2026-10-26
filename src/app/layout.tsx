@@ -18,6 +18,7 @@ const archivo = Archivo({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: "mvirgiawancr · Full-stack developer in Bandung",
   description:
     "Moch Virgiawan Caesar Ridollohi, a full-stack developer in Bandung. Web apps, AI features and smart contracts, mostly built against hackathon deadlines.",

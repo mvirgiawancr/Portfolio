@@ -5,6 +5,8 @@ export interface ProjectLink {
 
 export interface ProjectShot {
     src: string;
+    w: number;
+    h: number;
     caption: string;
     wide?: boolean;
 }
@@ -61,9 +63,9 @@ export const projects: Project[] = [
         video: "/work/qloo/demo.mp4",
         videoPoster: "/work/qloo/cover.jpg",
         shots: [
-            { src: "/work/qloo/title.jpg", caption: "The title card: your taste, named like a film.", wide: true },
-            { src: "/work/qloo/music.jpg", caption: "One card per domain, with Qloo's affinity score and four runners-up." },
-            { src: "/work/qloo/ask.jpg", caption: "Ask your reel: the agent's steps on the left, its picks on the right." },
+            { src: "/work/qloo/title.webp", w: 1600, h: 1067, caption: "The title card: your taste, named like a film.", wide: true },
+            { src: "/work/qloo/music.webp", w: 1600, h: 1067, caption: "One card per domain, with Qloo's affinity score and four runners-up." },
+            { src: "/work/qloo/ask.webp", w: 1600, h: 1067, caption: "Ask your reel: the agent's steps on the left, its picks on the right." },
         ],
     },
     {
@@ -94,9 +96,9 @@ export const projects: Project[] = [
         video: "/work/pulen/walkthrough.mp4",
         videoPoster: "/work/pulen/cover.jpg",
         shots: [
-            { src: "/work/pulen/morning.jpg", caption: "Play the morning: the counter, every tray and the messages, in 70 seconds.", wide: true },
-            { src: "/work/pulen/kitchen.jpg", caption: "The kitchen: every tray of 36 planned from paid boxes first." },
-            { src: "/work/pulen/summary.jpg", caption: "At closing, a summary for the owner and one thing to change tomorrow." },
+            { src: "/work/pulen/morning.webp", w: 1600, h: 1000, caption: "Play the morning: the counter, every tray and the messages, in 70 seconds.", wide: true },
+            { src: "/work/pulen/kitchen.webp", w: 1600, h: 1000, caption: "The kitchen: every tray of 36 planned from paid boxes first." },
+            { src: "/work/pulen/summary.webp", w: 1600, h: 1000, caption: "At closing, a summary for the owner and one thing to change tomorrow." },
         ],
     },
     {
@@ -129,9 +131,9 @@ export const projects: Project[] = [
         video: "/work/claw/promo.mp4",
         videoPoster: "/work/claw/cover.jpg",
         shots: [
-            { src: "/work/claw/rebrand.jpg", caption: "Same file, two brands: coffee became a sneaker drop.", wide: true },
-            { src: "/work/claw/grab.jpg", caption: "The grab, the near slip and the drop." },
-            { src: "/work/claw/editor.jpg", caption: "Inside SVGator: tagged colour layers and EDIT text layers." },
+            { src: "/work/claw/rebrand.webp", w: 1600, h: 1200, caption: "Same file, two brands: coffee became a sneaker drop.", wide: true },
+            { src: "/work/claw/grab.webp", w: 1600, h: 1200, caption: "The grab, the near slip and the drop." },
+            { src: "/work/claw/editor.webp", w: 1600, h: 1200, caption: "Inside SVGator: tagged colour layers and EDIT text layers." },
         ],
     },
     {
@@ -163,10 +165,10 @@ export const projects: Project[] = [
         ],
         cover: "/work/leash/cover.jpg",
         video: "/work/leash/demo.mp4",
-        videoPoster: "/work/leash/landing.jpg",
+        videoPoster: "/work/leash/landing.webp",
         shots: [
-            { src: "/work/leash/mandate.jpg", caption: "The rules, written in your own words and signed like a cheque.", wide: true },
-            { src: "/work/leash/refused.jpg", caption: "Out of scope means no search and no money moved." },
+            { src: "/work/leash/mandate.webp", w: 1600, h: 792, caption: "The rules, written in your own words and signed like a cheque.", wide: true },
+            { src: "/work/leash/refused.webp", w: 1600, h: 792, caption: "Out of scope means no search and no money moved." },
         ],
     },
     {
@@ -193,12 +195,12 @@ export const projects: Project[] = [
         ],
         stack: ["Rive", "RML", "WGSL shaders", "Luau", "Data binding"],
         links: [],
-        cover: "/work/lantern/window.jpg",
-        hero: "/work/lantern/intro.jpg",
+        cover: "/work/lantern/window.webp",
+        hero: "/work/lantern/intro.webp",
         shots: [
-            { src: "/work/lantern/window.jpg", caption: "A ghost caught in the window of the bedroom." },
-            { src: "/work/lantern/graveyard.jpg", caption: "The graveyard: the beam is the only thing you can see by." },
-            { src: "/work/lantern/finale.jpg", caption: "The finale: you found them all, they found you.", wide: true },
+            { src: "/work/lantern/window.webp", w: 1280, h: 720, caption: "A ghost caught in the window of the bedroom." },
+            { src: "/work/lantern/graveyard.webp", w: 1280, h: 720, caption: "The graveyard: the beam is the only thing you can see by." },
+            { src: "/work/lantern/finale.webp", w: 1280, h: 720, caption: "The finale: you found them all, they found you.", wide: true },
         ],
     },
     {
@@ -228,12 +230,12 @@ export const projects: Project[] = [
             { label: "Live demo", href: "https://sift.virlabs.my.id" },
             { label: "Source code", href: "https://github.com/mvirgiawancr/sift" },
         ],
-        cover: "/work/sift/cover.png",
+        cover: "/work/sift/cover.jpg",
         video: "/work/sift/scroll.mp4",
         shots: [
-            { src: "/work/sift/overview.png", caption: "Overview: the fix-first card, health score and sentiment split.", wide: true },
-            { src: "/work/sift/theme.png", caption: "Theme detail: summary, recommended fix, weekly trend and every response in the theme." },
-            { src: "/work/sift/feedback.png", caption: "All feedback: search and filter by sentiment or theme." },
+            { src: "/work/sift/overview.webp", w: 1600, h: 1200, caption: "Overview: the fix-first card, health score and sentiment split.", wide: true },
+            { src: "/work/sift/theme.webp", w: 1600, h: 1200, caption: "Theme detail: summary, recommended fix, weekly trend and every response in the theme." },
+            { src: "/work/sift/feedback.webp", w: 1600, h: 1200, caption: "All feedback: search and filter by sentiment or theme." },
         ],
     },
     {
@@ -267,12 +269,12 @@ export const projects: Project[] = [
                 href: "https://sepolia.basescan.org/address/0xe3a8619cE87406E4bB590Ca9FC491b797A40CaDb",
             },
         ],
-        cover: "/work/pact/cover.png",
+        cover: "/work/pact/cover.jpg",
         video: "/work/pact/scroll.mp4",
         shots: [
-            { src: "/work/pact/hero.png", caption: "One idea on the page: the vault holds the money until the work is done.", wide: true },
-            { src: "/work/pact/app.png", caption: "Create a pact on the left, track every pact you are part of on the right." },
-            { src: "/work/pact/rules.png", caption: "Who can move the money, and when, in plain language." },
+            { src: "/work/pact/hero.webp", w: 1600, h: 1000, caption: "One idea on the page: the vault holds the money until the work is done.", wide: true },
+            { src: "/work/pact/app.webp", w: 1600, h: 879, caption: "Create a pact on the left, track every pact you are part of on the right." },
+            { src: "/work/pact/rules.webp", w: 1600, h: 601, caption: "Who can move the money, and when, in plain language." },
         ],
     },
     {
@@ -300,12 +302,12 @@ export const projects: Project[] = [
             { label: "Live site", href: "https://pocket.virlabs.my.id" },
             { label: "Source code", href: "https://github.com/mvirgiawancr/pocket" },
         ],
-        cover: "/work/pocket/cover.png",
+        cover: "/work/pocket/cover.jpg",
         video: "/work/pocket/scroll.mp4",
         shots: [
-            { src: "/work/pocket/hero.png", caption: "Hero with the waitlist form and CSS-built product cards.", wide: true },
-            { src: "/work/pocket/how.png", caption: "How it works: spend, round up, pocket, recap." },
-            { src: "/work/pocket/recap.png", caption: "The weekly recap." },
+            { src: "/work/pocket/hero.webp", w: 1600, h: 1000, caption: "Hero with the waitlist form and CSS-built product cards.", wide: true },
+            { src: "/work/pocket/how.webp", w: 1600, h: 1100, caption: "How it works: spend, round up, pocket, recap." },
+            { src: "/work/pocket/recap.webp", w: 1600, h: 568, caption: "The weekly recap." },
         ],
     },
     {
@@ -334,10 +336,10 @@ export const projects: Project[] = [
             { label: "Live app", href: "https://ademservice.lovable.app" },
             { label: "Owner demo", href: "https://ademservice.lovable.app/demo" },
         ],
-        cover: "/work/adem/hero.png",
-        hero: "/work/adem/hero.png",
+        cover: "/work/adem/hero.webp",
+        hero: "/work/adem/hero.webp",
         shots: [
-            { src: "/work/adem/list.png", caption: "Services, prices and which area he covers on which day." },
+            { src: "/work/adem/list.webp", w: 1280, h: 1400, caption: "Services, prices and which area he covers on which day." },
         ],
     },
     {
@@ -362,9 +364,9 @@ export const projects: Project[] = [
         ],
         stack: ["HTML", "GSAP", "Puppeteer", "ffmpeg"],
         links: [],
-        cover: "/work/reel/cover.png",
+        cover: "/work/reel/cover.jpg",
         video: "/work/reel/reel.mp4",
-        videoPoster: "/work/reel/cover.png",
+        videoPoster: "/work/reel/cover.jpg",
         shots: [],
     },
 ];

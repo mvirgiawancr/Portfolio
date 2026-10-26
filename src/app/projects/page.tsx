@@ -15,7 +15,7 @@ export default function ProjectsPage() {
         <p className="mt-4 mb-10 max-w-md text-base text-paper/55 sm:mb-12 sm:text-lg">
           {projects.length} projects, each designed, built and launched by me.
         </p>
-        <Projects />
+        <Projects thumbs />
       </div>
     </section>
   );

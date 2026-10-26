@@ -1,11 +1,18 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { projects, type Project } from "@/data/projects";
 import { ProjectCard } from "@/components/ProjectCard";
 
+interface Props {
+  limit?: number;
+  /** Inline cover per row on small screens. Off when a stills strip already sits above the list. */
+  thumbs?: boolean;
+}
+
 /** The work index: big type rows, with a preview that follows the cursor on desktop. */
-export function Projects({ limit }: { limit?: number }) {
+export function Projects({ limit, thumbs }: Props) {
   const shown = limit ? projects.slice(0, limit) : projects;
   const [active, setActive] = useState<Project | null>(null);
   const preview = useRef<HTMLDivElement>(null);
@@ -39,27 +46,24 @@ export function Projects({ limit }: { limit?: number }) {
     <>
       <ul>
         {shown.map((p) => (
-          <ProjectCard key={p.slug} project={p} onHover={setActive} />
+          <ProjectCard key={p.slug} project={p} onHover={setActive} thumb={thumbs} />
         ))}
       </ul>
 
-      <div
-        ref={preview}
-        aria-hidden
-        className="pointer-events-none fixed top-0 left-0 z-40 hidden md:block"
-      >
+      <div ref={preview} aria-hidden className="pointer-events-none fixed top-0 left-0 z-40 hidden md:block">
         <div
-          className={`relative h-[15rem] w-[20rem] overflow-hidden border border-paper/20 bg-ink transition-[opacity,scale] duration-300 ${
+          className={`relative h-[15rem] w-[20rem] overflow-hidden border border-paper/20 bg-ink-2 transition-[opacity,scale] duration-300 ${
             active ? "scale-100 opacity-100" : "scale-95 opacity-0"
           }`}
         >
           {shown.map((p) => (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
+            <Image
               key={p.slug}
               src={p.cover}
               alt=""
-              className={`absolute inset-0 h-full w-full object-cover object-top transition-opacity duration-200 ${
+              fill
+              sizes="320px"
+              className={`object-cover object-top transition-opacity duration-200 ${
                 active?.slug === p.slug ? "opacity-100" : "opacity-0"
               }`}
             />

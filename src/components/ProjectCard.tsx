@@ -1,13 +1,16 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Project } from "@/data/projects";
 
 interface Props {
   project: Project;
   onHover?: (project: Project | null) => void;
+  /** Inline cover on small screens, for lists with no cursor preview above them. */
+  thumb?: boolean;
 }
 
 /** One row of the work index. Hover preview is handled by the parent list. */
-export function ProjectCard({ project, onHover }: Props) {
+export function ProjectCard({ project, onHover, thumb }: Props) {
   return (
     <li className="border-b border-paper/15">
       <Link
@@ -32,14 +35,11 @@ export function ProjectCard({ project, onHover }: Props) {
           <span className="hidden lg:inline">{project.stack.slice(0, 3).join(" · ")}</span>
         </p>
 
-        {/* Thumbnail inline on small screens, where there is no cursor preview */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={project.cover}
-          alt=""
-          loading="lazy"
-          className="col-span-2 mt-3 aspect-[4/3] w-full border border-paper/15 object-cover object-top md:hidden"
-        />
+        {thumb && (
+          <div className="relative col-span-2 mt-3 aspect-[4/3] overflow-hidden border border-paper/15 md:hidden">
+            <Image src={project.cover} alt="" fill sizes="100vw" className="object-cover object-top" />
+          </div>
+        )}
       </Link>
     </li>
   );

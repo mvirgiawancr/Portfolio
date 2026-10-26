@@ -1,5 +1,7 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Project } from "@/data/projects";
+import { ProjectVideo } from "@/components/ProjectVideo";
 
 function Meta({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -56,21 +58,22 @@ export function ProjectDetail({ project, next }: { project: Project; next: Proje
 
       {/* Hero media */}
       <div className="mx-auto mt-12 max-w-[96rem] px-5 sm:mt-14 sm:px-10">
-        <figure className="overflow-hidden border border-paper/15 bg-paper/5">
+        <figure className="relative aspect-[4/3] overflow-hidden border border-paper/15 bg-paper/5 sm:aspect-[16/9]">
           {project.video ? (
-            <video
+            <ProjectVideo
               src={project.video}
               poster={project.videoPoster ?? project.cover}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              className="aspect-[4/3] w-full object-cover sm:aspect-[16/9]"
+              className="h-full w-full object-cover"
             />
           ) : (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={project.hero ?? project.cover} alt={`${project.title} screenshot`} className="w-full" />
+            <Image
+              src={project.hero ?? project.cover}
+              alt={`${project.title} screenshot`}
+              fill
+              priority
+              sizes="(min-width: 1536px) 1536px, 100vw"
+              className="object-cover"
+            />
           )}
         </figure>
       </div>
@@ -106,8 +109,14 @@ export function ProjectDetail({ project, next }: { project: Project; next: Proje
         <div className="mx-auto mt-20 grid max-w-[96rem] gap-x-6 gap-y-10 px-5 sm:mt-28 sm:px-10 md:grid-cols-2">
           {project.shots.map((s) => (
             <figure key={s.src} className={s.wide ? "md:col-span-2" : ""}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={s.src} alt={s.caption} loading="lazy" className="w-full border border-paper/15" />
+              <Image
+                src={s.src}
+                alt={s.caption}
+                width={s.w}
+                height={s.h}
+                sizes={s.wide ? "(min-width: 1536px) 1536px, 100vw" : "(min-width: 768px) 50vw, 100vw"}
+                className="w-full border border-paper/15"
+              />
               <figcaption className="mt-3 max-w-xl text-sm text-paper/50">{s.caption}</figcaption>
             </figure>
           ))}

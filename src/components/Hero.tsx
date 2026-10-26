@@ -1,4 +1,5 @@
-﻿import Link from "next/link";
+﻿import Image from "next/image";
+import Link from "next/link";
 import { site } from "@/data/site";
 
 /** Full-bleed opening frame: the still, a slate row, one line of type, one way in. */
@@ -7,12 +8,13 @@ export function Hero() {
     <section className="relative isolate flex min-h-svh flex-col overflow-hidden bg-ink text-paper">
       {/* The still, with a slow push in and a scrim that lands on ink so the next section continues it */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src="/hero/dawn.jpg"
           alt="Dawn over the highlands of Bandung, layered ridges fading into haze"
-          className="kenburns h-full w-full object-cover object-[56%_45%]"
-          fetchPriority="high"
+          fill
+          priority
+          sizes="100vw"
+          className="kenburns object-cover object-[56%_45%]"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/25 to-ink/40" />
         <div className="absolute inset-0 bg-[radial-gradient(115%_75%_at_68%_40%,transparent_30%,oklch(16.5%_0.014_240/0.55)_100%)]" />
