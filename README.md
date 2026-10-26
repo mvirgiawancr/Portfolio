@@ -1,53 +1,33 @@
-# Moch Virgiawan Caesar Ridollohi - Portfolio
+# Portfolio
 
-A modern, minimalist personal portfolio built with Next.js 16, featuring Neo-Brutalism design aesthetic with micro-interactions and smooth animations.
+Personal portfolio of Moch Virgiawan Caesar Ridollohi, a full-stack developer in Bandung.
 
-## ✨ Features
+## Stack
 
-- **Neo-Brutalism Design** - Bold typography, thick borders, and vibrant accent colors
-- **Dark/Light Mode** - Seamless theme switching with system preference detection
-- **Smooth Animations** - Powered by Framer Motion for engaging micro-interactions
-- **Custom Cursor** - Interactive cursor that responds to user actions
-- **Responsive Layout** - Optimized for all screen sizes
-- **SEO Optimized** - Meta tags and OpenGraph support
+- Next.js 16 (App Router), React 19, TypeScript
+- Tailwind CSS v4, tokens defined in `src/app/globals.css`
+- Fonts: Instrument Serif (display) and Archivo (text), loaded through `next/font`
 
-## 🛠️ Tech Stack
+## Layout
 
-- **Framework**: Next.js 16 (App Router)
-- **Styling**: Tailwind CSS
-- **Animations**: Framer Motion
-- **Language**: TypeScript
-- **Font**: Outfit (Google Fonts)
+- `src/app/page.tsx` home: hero, selected work, background, contact
+- `src/app/projects/` work index and the per-project pages
+- `src/data/projects.ts` all project content
+- `src/data/site.ts` name, links, stack and background entries
 
-## 🚀 Getting Started
+## The hero still
 
-```bash
-# Install dependencies
+`public/hero/dawn.jpg` is rendered from `art/dawn.html`, a layered SVG scene whose ridgelines come from seeded midpoint displacement, so every render is identical. To change it, edit the HTML, serve the repo locally, and screenshot it at 2560x1440:
+
+```
+python -m http.server 4321
+# then open http://127.0.0.1:4321/art/dawn.html at 2560x1440 and save a JPEG to public/hero/dawn.jpg
+```
+
+## Run
+
+```
 npm install
-
-# Run development server
 npm run dev
-
-# Build for production
 npm run build
 ```
-
-Open [http://localhost:3000](http://localhost:3000) to view the portfolio.
-
-## 📁 Project Structure
-
-```
-src/
-├── app/              # Next.js App Router pages
-├── components/       # React components (Hero, About, Projects, etc.)
-└── data/             # Static data (projects list)
-```
-
-## 📝 License
-
-MIT License - feel free to use this as a template for your own portfolio!
-
-## 👤 Author
-
-**Moch Virgiawan Caesar Ridollohi**
-- GitHub: [@mvirgiawancr](https://github.com/mvirgiawancr)
