@@ -106,6 +106,33 @@ h3 {
 }
 
 /* The still breathes: a slow push in, like a camera on a tripod */
+/* The contact sheet advances like a filmstrip. Desktop only: on touch, the strip stays a plain swipe.
+   The offset is half the track plus half a gap, so the copy lands exactly where the first set started. */
+@keyframes drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(calc(-50% - 0.75rem), 0, 0);
+  }
+}
+
+@media (min-width: 640px) {
+  .drift-track {
+    animation: drift 90s linear infinite;
+  }
+  .drift:hover .drift-track,
+  .drift:focus-within .drift-track {
+    animation-play-state: paused;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drift-track {
+    animation: none !important;
+  }
+}
+
 @keyframes kenburns {
   from {
     transform: scale(1.04) translate3d(0, 0, 0);
